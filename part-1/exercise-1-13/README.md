@@ -1,40 +1,37 @@
-# example-frontend
+# backend-example-docker
 
-This project is created to help learn docker configurations for frontend projects. The README starting from "Prerequisites" is written without Docker in mind so student has to figure out how to construct their configuration based on the README. However, there are some additional helpers added in the README and in the exercise description.
+This project is created to help learn docker configurations for backend projects. Student has to figure out how to construct their configuration based on the README. However, there are some additional helpers added in the README and in the exercise description.
 
-> Notice, that all the information are not needed in all the exercises. Don't just copypaste.
+# Prerequisites for development
 
-# Prerequisites
+Install [golang](https://golang.org/doc/install) 1.16
 
-Install [node](https://nodejs.org/en/download/). 
+# Build project #
 
-Example node install instructions for LTS node 16.x:
-```
-curl -sL https://deb.nodesource.com/setup_16.x | bash
-sudo apt install -y nodejs
-```
+Run `go build`. It will generate a binary named "server"
 
-Check your install with `node -v && npm -v`
+# Test project #
 
-Install all packages with `npm install`
+Run tests with `go test ./...`.
 
-# Starting in production mode
+# Execute project #
 
-## Exercise 1.12 -> to run the project
+Execute the file e.g. `./server`.
 
-First you need to build the static files with `npm run build`
+> In exercise 1.12 and after you will need to add some environment variables. Not everything is important for all exercises and some may be useless.
 
-This will generate them into `build` folder.
+Server accepts the following environment variables:
 
-An example for serving static files:
+- `PORT` to choose which port for the application. Default: 8080
 
-Use npm package called serve to serve the project in port 5000:
-- install: `npm install -g serve`
-- serve: `serve -s -l 5000 build`
+- In 1.12 and after
+  - `REQUEST_ORIGIN` to pass an url through the cors check. Default: https://example.com
 
-Test that the project is running by going to <http://localhost:5000>
+- In 2.4 and after
+  - `REDIS_HOST` The hostname for redis. (port will default to 6379, the default for Redis)
 
-## Exercise 1.14 -> to connect to backend
-
-By default the expected path to backend is /api. This is where the application will send requests. 
-To manually configure api path run with `REACT_APP_BACKEND_URL` environment value set, for example `REACT_APP_BACKEND_URL=http://example.com npm run build`
+- In 2.6 and after
+  - `POSTGRES_HOST` The hostname for postgres database. (port will default to 5432 the default for Postgres)
+  - `POSTGRES_USER` database user. Default: postgres
+  - `POSTGRES_PASSWORD` database password. Default: postgres
+  - `POSTGRES_DATABASE` database name. Default: postgres
