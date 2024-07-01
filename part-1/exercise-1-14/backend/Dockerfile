@@ -8,8 +8,7 @@ EXPOSE 8080
 WORKDIR /usr/src/app
 
 # Set Environmental variables
-ENV PORT=8080
-ENV REQUEST_ORIGIN=https://example.com
+ENV REQUEST_ORIGIN=http://localhost:5000
 
 # Copy source
 COPY . .
