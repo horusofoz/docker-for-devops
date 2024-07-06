@@ -1,0 +1,10 @@
+name: simple-web-service
+
+services:
+
+  web-service:
+    image: devopsdockeruh/simple-web-service:ubuntu
+    build: .
+    volumes:
+      - ./logs/text.log:/usr/src/app/text.log
+    container_name: web-service-2-1
