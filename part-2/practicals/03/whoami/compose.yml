@@ -1,0 +1,7 @@
+name: whoami
+
+services:
+  whoami:
+    image: jwilder/whoami
+    ports:
+      - 8000:8000
