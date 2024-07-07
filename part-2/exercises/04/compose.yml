@@ -1,0 +1,26 @@
+name: devops-2-4
+
+services:
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: ./frontend.Dockerfile
+    ports:
+      - "5000:5000"
+    container_name: frontend-2-4
+
+  redis:
+    image: library/redis:latest
+    container_name: redis-2-4
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./backend.Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      REDIS_HOST: redis
+      REQUEST_ORIGIN: http://localhost:5000
+    container_name: backend-2-4
