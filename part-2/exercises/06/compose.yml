@@ -1,0 +1,38 @@
+name: devops-2-4
+
+services:
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: ./frontend.Dockerfile
+    ports:
+      - "5000:5000"
+    container_name: frontend-2-4
+
+  db: 
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: postgres
+    container_name: db_redmine
+
+  redis:
+    image: library/redis:latest
+    container_name: redis-2-4
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./backend.Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      REDIS_HOST: redis
+      REQUEST_ORIGIN: http://localhost:5000
+      POSTGRES_HOST: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASE: postgres
+    container_name: backend-2-4
