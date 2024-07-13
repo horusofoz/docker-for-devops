@@ -1,4 +1,4 @@
-name: devops-2-6
+name: devops-2-4
 
 services:
 
@@ -17,6 +17,10 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
     container_name: db_redmine
+    volumes:
+      - type: bind
+        source: ./db-data
+        target: /var/lib/postgresql/data
 
   redis:
     image: library/redis:latest
