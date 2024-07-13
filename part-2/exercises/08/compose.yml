@@ -1,0 +1,56 @@
+name: devops-2-8
+
+services:
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    container_name: redis-2-8
+
+  postgres: 
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: postgres
+    container_name: db-2-8
+    volumes:
+      - type: bind
+        source: ./db-data
+        target: /var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./backend.Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      REDIS_HOST: redis
+      REQUEST_ORIGIN: http://localhost:5000
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASE: postgres
+    container_name: backend-2-8
+    depends_on:
+      - postgres
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: ./frontend.Dockerfile
+    ports:
+      - "5000:5000"
+    container_name: frontend-2-8  
+
+  nginx:
+      image: nginx
+      volumes:
+        - ./nginx-data/nginx.conf:/etc/nginx/nginx.conf
+      depends_on:
+        - backend
+        - frontend
+      ports:
+        - "80:80"
+      container_name: nginx-2-8
